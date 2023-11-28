@@ -8,6 +8,30 @@ app.set('view engine' , 'handlebars')
 
 app.use(express.static('public'))
 
+app.use (express.urlencoded({
+    extended: true
+})) 
+
+app.use(express.json())
+
+app.post('/criar' , (requisicao, resposta) =>{
+    const descricao = requisicao.body.descricao
+    const cpmpleta = 0 
+
+    const sql = `
+        INSERT INTO tarefas(descricao, cpmpleta)
+        VALUES ('${descricao}' , '${cpmpleta}')
+    `
+
+    conexao.query(sql, (erro) => {
+        if (erro) {
+            return console.log(erro)
+        }
+
+        resposta.redirect('/')
+    })
+})
+
 app.get('/', (requisicao , resposta) => {
     resposta.render('home')
 })
