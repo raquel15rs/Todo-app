@@ -14,6 +14,22 @@ app.use (express.urlencoded({
 
 app.use(express.json())
 
+app.post ('/cpmpleta' , (requisicao,resposta) => {
+    const id = requisicao.body.id
+    const sql = `
+        UPDATE tarefas
+        SET cpmpleta = '1'
+        WHERE id = ${id}
+    `
+    conexao.query(sql, (erro) =>{
+        if (erro){
+            return console.log(erro)
+        }
+
+        resposta.redirect('/')  
+    })
+})
+
 app.post('/criar' , (requisicao, resposta) =>{
     const descricao = requisicao.body.descricao
     const cpmpleta = 0 
